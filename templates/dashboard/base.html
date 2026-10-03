@@ -1,0 +1,67 @@
+{% load static %}<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>{% block title %}Arab Invest CMS{% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    </head>
+    <body>
+        <aside class="sidebar" id="side">
+            <div class="side-brand">
+                <b>AI</b>
+                <div><strong>ARAB INVEST</strong><small>INTRANET CMS</small></div>
+            </div>
+            <button class="collapse" id="collapse">‹</button>
+            <nav>
+                <small>OVERVIEW</small
+                ><a href="{% url 'dashboard' %}"><i class="fa-solid fa-chart-line"></i>Dashboard</a
+                ><small>CONTENT</small
+                ><a href="{% url 'navigation_list' %}"><i class="fa-solid fa-sitemap"></i>Navigation</a
+                ><a href="{% url 'page_list' %}"><i class="fa-regular fa-file-lines"></i>Pages</a
+                ><a href="{% url 'page_documents_list' %}"><i class="fa-regular fa-file-pdf"></i>Documents</a
+                ><a href="{% url 'page_links_list' %}"><i class="fa-solid fa-link"></i>Links</a
+                ><a href="{% url 'page_images_list' %}"><i class="fa-regular fa-images"></i>Images</a
+                ><small>COMMUNICATION</small
+                ><a href="{% url 'banner_list' %}"><i class="fa-regular fa-rectangle-list"></i>Banners</a
+                ><a href="{% url 'news_list' %}"><i class="fa-regular fa-newspaper"></i>News</a><small>SYSTEM</small
+                ><a href="{% url 'profile' %}"><i class="fa-regular fa-user"></i>Profile</a
+                ><a href="{% url 'settings' %}"><i class="fa-solid fa-sliders"></i>Settings</a
+                ><a href="{% url 'home' %}" target="_blank"
+                    ><i class="fa-solid fa-arrow-up-right-from-square"></i>View Website</a
+                ><a href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
+            </nav>
+        </aside>
+        <div class="dash-main">
+            <header class="topbar">
+                <button id="mobileSide">☰</button>
+                <form action="{% url 'search' %}" class="search">
+                    <i class="fa-solid fa-magnifying-glass"></i
+                    ><input name="q" value="{{ request.GET.q }}" placeholder="Search anything..." />
+                </form>
+                <div class="top-right">
+                    <div class="create">
+                        <button id="createBtn">+ Create</button>
+                        <div>
+                            <a href="{% url 'navbar_add' %}">Navbar</a
+                            ><a href="{% url 'navigation_add' %}">Navigation item</a
+                            ><a href="{% url 'page_add' %}">Page</a><a href="{% url 'page_documents_add' %}">Document</a
+                            ><a href="{% url 'banner_add' %}">Banner</a><a href="{% url 'news_add' %}">News</a>
+                        </div>
+                    </div>
+                    <span class="user">{{ request.user.username }}</span>
+                </div>
+            </header>
+            {% if messages %}
+            <div class="toasts">
+                {% for m in messages %}
+                <div>{{ m }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            <main class="workspace">{% block content %}{% endblock %}</main>
+        </div>
+        <script src="{% static 'js/dashboard.js' %}"></script>
+    </body>
+</html>

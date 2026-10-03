@@ -1,0 +1,170 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+
+<div class="head">
+
+    <div>
+        <small>CMS / CONTENT / NAVIGATION</small>
+
+        <h1>Navigation Manager</h1>
+
+        <p>
+            Unlimited hierarchy. Every item is a real database record.
+        </p>
+    </div>
+
+    <a
+        class="primary"
+        href="{% url 'navbar_add' %}"
+    >
+        + Add Navbar
+    </a>
+
+</div>
+
+
+<section class="panel">
+
+    <!-- SEARCH -->
+
+    <form
+        class="tree-search"
+        method="get"
+    >
+
+        <input
+            type="search"
+            name="q"
+            value="{{ q }}"
+            placeholder="Search navigation..."
+        >
+
+        <button type="submit">
+            Search
+        </button>
+
+    </form>
+
+
+    <!-- NAVBARS -->
+
+    {% for navbar in navbars %}
+
+        <div class="tree-root">
+
+            <!-- NAVBAR NAME -->
+
+            <div
+                style="
+                    display:flex;
+                    align-items:center;
+                    gap:12px;
+                    min-width:0;
+                "
+            >
+
+                <b>
+                    {{ navbar.name }}
+                </b>
+
+                <span>
+                    NAVBAR
+                </span>
+
+            </div>
+
+
+            <!-- NAVBAR ACTIONS -->
+
+            <div
+                style="
+                    display:flex;
+                    align-items:center;
+                    gap:8px;
+                "
+            >
+
+                <!-- ADD FIRST ITEM -->
+
+                <a
+                    href="{% url 'navigation_add' %}?navbar={{ navbar.pk }}"
+                    class="secondary"
+                >
+                    + Item
+                </a>
+
+
+                <!-- DELETE NAVBAR -->
+
+                <form
+                    method="post"
+                    action="{% url 'navbar_delete' navbar.pk %}"
+                    style="display:inline;"
+                    onsubmit="return confirm(
+                        'Delete {{ navbar.name|escapejs }}? This will also delete all navigation items under this navbar.'
+                    );"
+                >
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="danger"
+                    >
+                        Delete
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+        <!-- NAVIGATION TREE -->
+
+        {% for item in navbar.items.all %}
+
+            {% if not item.parent and item.is_active %}
+
+                {% include 'dashboard/tree.html' with item=item depth=0 %}
+
+            {% endif %}
+
+        {% empty %}
+
+            <div class="empty">
+                No items under this navbar.
+            </div>
+
+        {% endfor %}
+
+
+    {% empty %}
+
+        <div class="empty">
+
+            <strong>
+                No navbars yet.
+            </strong>
+
+            <p>
+                Create your first navbar to start building the
+                navigation hierarchy.
+            </p>
+
+            <a
+                href="{% url 'navbar_add' %}"
+                class="primary"
+            >
+                + Create Navbar
+            </a>
+
+        </div>
+
+    {% endfor %}
+
+</section>
+
+{% endblock %}

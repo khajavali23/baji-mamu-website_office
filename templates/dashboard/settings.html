@@ -1,0 +1,15 @@
+{% extends 'dashboard/base.html' %}{% block content %}
+<div class="head">
+    <div>
+        <small>SYSTEM / SETTINGS</small>
+        <h1>Settings</h1>
+        <p>Safe application information. Secrets are environment-only.</p>
+    </div>
+</div>
+<section class="panel settings">
+    <div><span>Application</span><b>Arab Invest Intranet CMS</b></div>
+    <div><span>Database</span><b>SQLite local development</b></div>
+    <div><span>Media</span><b>Django MEDIA_ROOT / MEDIA_URL</b></div>
+    <div><span>Content storage</span><b>Database only — no browser storage</b></div>
+</section>
+{% endblock %}

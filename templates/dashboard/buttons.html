@@ -1,0 +1,39 @@
+{% extends 'dashboard/base.html' %}{% block content %}
+<div class="head">
+    <div>
+        <small>CMS / BANNER / BUTTONS</small>
+        <h1>{{ banner.title }}</h1>
+        <p>Manage dynamic hero calls-to-action.</p>
+    </div>
+    <a class="primary" href="{% url 'banner_button_add' banner.pk %}">+ Add Button</a>
+</div>
+<section class="panel">
+    {% for b in items %}
+    <div class="button-item">
+        <div><strong>{{ b.text }}</strong><small>{{ b.get_button_type_display }} · order {{ b.order }}</small></div>
+        <div>
+            {% if b.is_main %}<span class="badge main">MAIN</span>{% endif %}<span
+                class="badge {% if b.is_active %}ok{% endif %}"
+                >{{ b.is_active|yesno:'ACTIVE,INACTIVE' }}</span
+            >
+        </div>
+        <div class="actions">
+            <a href="{% url 'banner_button_edit' b.pk %}">Edit</a>{% if not b.is_main %}
+            <form method="post" action="{% url 'banner_button_main' b.pk %}">
+                {% csrf_token %}<button>Set Main</button>
+            </form>
+            {% endif %}
+            <form
+                method="post"
+                action="{% url 'banner_button_delete' b.pk %}"
+                onsubmit="return confirm('Delete button?')"
+            >
+                {% csrf_token %}<button>Delete</button>
+            </form>
+        </div>
+    </div>
+    {% empty %}
+    <div class="empty">No buttons yet.</div>
+    {% endfor %}
+</section>
+{% endblock %}

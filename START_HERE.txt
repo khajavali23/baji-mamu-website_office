@@ -1,0 +1,26 @@
+ARAB INVEST INTRANET — QUICK START
+
+1. Extract this package.
+2. Open Terminal in the extracted folder.
+3. Run:
+
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+
+Windows:
+venv\Scripts\activate
+
+Website:
+http://127.0.0.1:8000/
+
+CMS:
+http://127.0.0.1:8000/dashboard/
+
+Optional sample database records:
+python manage.py seed_demo
+
+No real client credentials are included.

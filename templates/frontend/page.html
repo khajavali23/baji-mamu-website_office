@@ -1,0 +1,33 @@
+{% extends 'frontend/base.html' %}{% block title %}{{ page.heading }} · Arab Invest{% endblock %}{% block content %}
+<section class="page">
+    <div class="crumbs">
+        <a href="{% url 'home' %}">Home</a>{% for x in breadcrumbs %}<span>/</span><b>{{ x.name }}</b>{% endfor %}
+    </div>
+    <span class="eyebrow">CORPORATE CONTENT</span>
+    <h1>{{ page.heading }}</h1>
+    {% if page.image %}<img class="page-cover" src="{{ page.image.url }}" alt="{{ page.heading }}" />{% endif %}
+    <div class="prose">{{ page.content|linebreaks }}</div>
+    {% if page.documents.all %}
+    <section class="resources">
+        <span>DOCUMENTS</span>{% for x in page.documents.all %}<a href="{{ x.document.url }}" target="_blank"
+            ><b>PDF</b><strong>{{ x.name }}</strong><small>Open ↗</small></a
+        >{% endfor %}
+    </section>
+    {% endif %}{% if page.links.all %}
+    <section class="resources">
+        <span>LINKS</span>{% for x in page.links.all %}<a href="{{ x.url }}" target="_blank"
+            ><b>↗</b><strong>{{ x.name }}</strong><small>Open ↗</small></a
+        >{% endfor %}
+    </section>
+    {% endif %}{% if page.images.all %}
+    <section class="gallery">
+        <span>GALLERY</span>
+        <div>
+            {% for x in page.images.all %}<a href="{{ x.image.url }}" target="_blank"
+                ><img src="{{ x.image.url }}" alt="{{ x.name }}" /><small>{{ x.name }}</small></a
+            >{% endfor %}
+        </div>
+    </section>
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'dashboard/base.html' %}{% block content %}
+<div class="head">
+    <div>
+        <small>GLOBAL SEARCH</small>
+        <h1>Search</h1>
+        <p>Search live database records.</p>
+    </div>
+</div>
+<section class="panel">
+    <form class="large-search">
+        <input name="q" value="{{ q }}" placeholder="Search anything..." /><button class="primary">Search</button>
+    </form>
+    {% for type,name,url in results %}<a
+        class="result"
+        href="{{ url }}"
+        {%
+        if
+        type
+        !="Navigation"
+        and
+        type
+        !="Page"
+        %}target="_blank"
+        {%
+        endif
+        %}
+        ><span>{{ type }}</span><strong>{{ name }}</strong>↗</a
+    >{% empty %}{% if q %}
+    <div class="empty">No matching records.</div>
+    {% endif %}{% endfor %}
+</section>
+{% endblock %}

@@ -1,0 +1,261 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+
+<div class="head">
+
+    <div>
+        <small>CMS / {{ title|upper }}</small>
+
+        <h1>{{ title }}</h1>
+
+        <p>{{ description }}</p>
+    </div>
+
+    <a class="primary" href="{% url add_name %}">
+        + Add
+    </a>
+
+</div>
+
+
+<section class="panel">
+
+    <div class="table-tools">
+
+        <input
+            placeholder="Filter this view..."
+        >
+
+        <span>
+            {{ items|length }} records
+        </span>
+
+    </div>
+
+
+    <div class="table-wrap">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Content</th>
+                    <th>Context</th>
+                    <th>Status / Type</th>
+                    <th>Updated</th>
+                    <th></th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for x in items %}
+
+                <tr>
+
+                    <!-- CONTENT -->
+
+                    <td>
+
+                        <strong>
+
+                            {% if kind == 'page' %}
+
+                                {{ x.heading }}
+
+                            {% elif kind == 'banner' %}
+
+                                {{ x.title }}
+
+                            {% elif kind == 'news' %}
+
+                                {{ x.heading }}
+
+                            {% else %}
+
+                                {{ x.name }}
+
+                            {% endif %}
+
+                        </strong>
+
+                    </td>
+
+
+                    <!-- CONTEXT -->
+
+                    <td>
+
+                        {% if kind == 'page' %}
+
+                            {{ x.navigation_item.name }}
+
+                        {% elif kind == 'resource' %}
+
+                            {% if x.page %}
+
+                                {{ x.page.heading }}
+
+                            {% else %}
+
+                                {{ x.navigation_item.name }}
+
+                            {% endif %}
+
+                        {% elif kind == 'banner' %}
+
+                            {{ x.button_count }} buttons
+
+                        {% else %}
+
+                            —
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- STATUS / TYPE -->
+
+                    <td>
+
+                        {% if kind == 'resource' %}
+
+                            <span class="badge">
+                                RESOURCE
+                            </span>
+
+
+                        {% elif kind == 'page' %}
+
+                            <span class="badge">
+                                PAGE
+                            </span>
+
+
+                        {% elif kind == 'banner' %}
+
+                            <span
+                                class="badge {% if x.is_active %}ok{% endif %}"
+                            >
+                                {{ x.is_active|yesno:"ACTIVE,INACTIVE" }}
+                            </span>
+
+
+                        {% elif kind == 'news' %}
+
+                            <span class="badge">
+                                {{ x.date|date:"d M Y" }}
+                            </span>
+
+
+                        {% else %}
+
+                            <span
+                                class="badge {% if x.is_active %}ok{% endif %}"
+                            >
+                                {{ x.is_active|yesno:"ACTIVE,INACTIVE" }}
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- UPDATED -->
+
+                    <td>
+                        {{ x.updated_at|date:"d M Y, H:i" }}
+                    </td>
+
+
+                    <!-- ACTIONS -->
+
+                    <td class="actions">
+
+                        <!-- VIEW -->
+
+                        <a
+                            href="{% if kind == 'page' %}{% url 'page_detail' x.pk %}{% elif kind == 'banner' %}{% url 'banner_preview' x.pk %}{% elif kind == 'resource' %}{% if x.document %}{{ x.document.url }}{% elif x.image %}{{ x.image.url }}{% else %}{{ x.url }}{% endif %}{% else %}#{% endif %}"
+                            target="_blank"
+                        >
+                            View
+                        </a>
+
+
+                        <!-- EDIT -->
+
+                        <a href="{% url edit_name x.pk %}">
+                            Edit
+                        </a>
+
+
+                        <!-- BANNER BUTTONS -->
+
+                        {% if kind == 'banner' %}
+
+                            <a href="{% url 'banner_buttons' x.pk %}">
+                                Buttons
+                            </a>
+
+                        {% endif %}
+
+
+                        <!-- DELETE -->
+
+                        <form
+                            method="post"
+                            action="{% url delete_name x.pk %}"
+                            onsubmit="return confirm('Delete this item?')"
+                        >
+
+                            {% csrf_token %}
+
+                            <button type="submit">
+                                Delete
+                            </button>
+
+                        </form>
+
+                    </td>
+
+                </tr>
+
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="5">
+
+                        <div class="empty">
+
+                            <h3>
+                                No records yet.
+                            </h3>
+
+                            <p>
+                                Use the Add button to create the first one.
+                            </p>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+{% endblock %}

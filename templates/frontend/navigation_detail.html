@@ -1,0 +1,17 @@
+{% extends 'frontend/base.html' %}{% block content %}
+<section class="page">
+    <div class="crumbs">
+        <a href="{% url 'home' %}">Home</a>{% for x in breadcrumbs %}<span>/</span><b>{{ x.name }}</b>{% endfor %}
+    </div>
+    <span class="eyebrow">EXPLORE</span>
+    <h1>{{ item.name }}</h1>
+    <p class="lead">Explore the content available in this section.</p>
+    <div class="child-grid">
+        {% for x in children %}<a href="{% url 'navigation_detail' x.pk %}"
+            ><small>{{ x.get_item_type_display|upper }}</small><strong>{{ x.name }}</strong><span>Open →</span></a
+        >{% empty %}
+        <div class="empty">No content is published here yet.</div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

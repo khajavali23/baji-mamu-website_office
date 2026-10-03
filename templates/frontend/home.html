@@ -1,0 +1,576 @@
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+
+<style>
+    /* =====================================================
+   HERO ACTIONS
+===================================================== */
+
+.hero-actions {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    margin-top: 34px;
+
+}
+
+
+/* =====================================================
+   NORMAL BUTTON GROUP
+===================================================== */
+
+.hero-secondary-actions {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 9px;
+
+}
+
+
+/* =====================================================
+   NORMAL BUTTON
+===================================================== */
+
+
+
+
+/* gold bottom line */
+
+.hero-action::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    bottom: 0;
+
+    width: 0;
+
+    height: 2px;
+
+    background: var(--gold);
+
+    transition: width .3s ease;
+
+}
+
+
+
+
+
+
+
+
+
+.hero-action:hover i {
+
+    opacity: 1;
+
+    transform: translate(3px,-3px);
+
+}
+
+
+/* =====================================================
+   MAIN BUTTON AREA
+===================================================== */
+
+.hero-primary-action {
+
+    margin-top: 18px;
+
+    padding-top: 18px;
+
+    border-top: 1px solid rgba(255,255,255,.12);
+
+    width: 100%;
+
+    max-width: 440px;
+
+}
+
+
+
+
+/* =====================================================
+   MAIN BUTTON
+===================================================== */
+
+
+
+/* gold accent */
+
+.hero-main-button::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    top: 0;
+
+    width: 3px;
+
+    height: 100%;
+
+    background: var(--gold);
+
+}
+
+
+/* arrow */
+
+.hero-main-button i {
+
+    font-size: 10px;
+
+    opacity: .9;
+
+    transition: transform .3s ease;
+
+}
+
+
+/* hover */
+
+.hero-main-button:hover {
+
+    background: #660032;
+
+    border-color: #660032;
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 20px 45px rgba(112,19,63,.30);
+
+}
+
+
+.hero-main-button:hover i {
+
+    transform: translate(4px,-4px);
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+    .hero-secondary-actions {
+
+        width: 100%;
+
+        flex-direction: column;
+
+    }
+
+
+    .hero-action {
+
+        width: 100%;
+
+    }
+
+
+    .hero-primary-action {
+
+        max-width: none;
+
+    }
+
+}
+</style>
+
+<section class="home-hero">
+
+    {% if banners %}
+
+        {% for b in banners %}
+
+            <article
+                class="hero-slide {% if forloop.first %}active{% endif %}"
+                data-slide="{{ forloop.counter0 }}"
+                style="
+                    {% if b.image %}
+                        background-image: url('{{ b.image.url }}');
+                    {% endif %}
+                "
+            >
+
+                <div class="hero-overlay"></div>
+
+                <div class="hero-inner">
+
+
+                    <!-- =================================================
+                         LEFT : BANNER CONTENT
+                    ================================================== -->
+
+                    <div class="hero-content">
+
+                        <div class="hero-eyebrow">
+
+                            <span></span>
+
+                            <small>
+                                Arab Invest Intranet
+                            </small>
+
+                        </div>
+
+
+                        <h1>
+                            {{ b.title }}
+                        </h1>
+
+
+                        {% if b.description %}
+
+                            <p>
+                                {{ b.description }}
+                            </p>
+
+                        {% endif %}
+
+
+                       {% if b.buttons.all %}
+
+                            <div class="hero-actions">
+
+                                <!-- =================================================
+                                    SECONDARY / NORMAL BUTTONS
+                                ================================================= -->
+
+                                <div class="hero-secondary-actions">
+
+                                    {% for btn in b.buttons.all %}
+
+                                        {% if btn.is_active and not btn.is_main %}
+
+                                            <a
+                                                class="hero-action"
+                                                href="{{ btn.target_url }}"
+
+                                                {% if btn.button_type != 'page' and btn.button_type != 'url' %}
+                                                    target="_blank"
+                                                {% endif %}
+                                            >
+
+                                                <span>
+                                                    {{ btn.text }}
+                                                </span>
+
+                                                <i class="fa-solid fa-arrow-right"></i>
+
+                                            </a>
+
+                                        {% endif %}
+
+                                    {% endfor %}
+
+                                </div>
+
+
+                                <!-- =================================================
+                                    MAIN BUTTON — SEPARATE
+                                ================================================= -->
+
+                                {% for btn in b.buttons.all %}
+
+                                    {% if btn.is_active and btn.is_main %}
+
+                                        <div class="hero-primary-action">
+
+                                            <a
+                                                class="hero-main-button"
+                                                href="{{ btn.target_url }}"
+
+                                                {% if btn.button_type != 'page' and btn.button_type != 'url' %}
+                                                    target="_blank"
+                                                {% endif %}
+                                            >
+                                            
+
+                                                <span>
+                                                    {{ btn.text }}
+                                                </span>
+
+                                               <span>
+                                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                            </span>
+
+                                            </a>
+
+                                        </div>
+
+                                    {% endif %}
+
+                                {% endfor %}
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- =================================================
+                         RIGHT : NEWS CARD
+                    ================================================== -->
+
+                    {% if news %}
+
+                        <div class="hero-news">
+
+
+                            <!-- NEWS IMAGE -->
+
+                            <div class="hero-news-media">
+
+                                {% for n in news %}
+
+                                    <div
+                                        class="
+                                            hero-news-image
+                                            {% if forloop.first %}
+                                                active
+                                            {% endif %}
+                                        "
+                                        data-news="{{ forloop.counter0 }}"
+                                    >
+
+                                        {% if n.image %}
+
+                                            <img
+                                                src="{{ n.image.url }}"
+                                                alt="{{ n.heading }}"
+                                            >
+
+                                        {% else %}
+
+                                            <div class="hero-news-placeholder">
+                                                <span>ARAB</span>
+                                                <strong>INVEST</strong>
+                                            </div>
+
+                                        {% endif %}
+
+                                    </div>
+
+                                {% endfor %}
+
+
+                                {% if news|length > 1 %}
+
+                                    <button
+                                        type="button"
+                                        class="hero-news-arrow hero-news-prev"
+                                        aria-label="Previous news"
+                                    >
+                                        <i class="fa-solid fa-arrow-left"></i>
+                                    </button>
+
+
+                                    <button
+                                        type="button"
+                                        class="hero-news-arrow hero-news-next"
+                                        aria-label="Next news"
+                                    >
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </button>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- NEWS CONTENT -->
+
+                            <div class="hero-news-content">
+
+                                {% for n in news %}
+
+                                    <article
+                                        class="
+                                            hero-news-copy
+                                            {% if forloop.first %}
+                                                active
+                                            {% endif %}
+                                        "
+                                        data-news="{{ forloop.counter0 }}"
+                                    >
+
+                                        <small>
+                                            {{ n.date|date:'d M Y' }}
+                                        </small>
+
+
+                                        <h2>
+                                            {{ n.heading }}
+                                        </h2>
+
+
+                                        {% if n.paragraph %}
+
+                                            <p>
+                                                {{ n.paragraph|truncatewords:24 }}
+                                            </p>
+
+                                        {% endif %}
+
+
+                                        {% if n.link %}
+
+                                            <a
+                                                href="{{ n.link }}"
+                                                target="_blank"
+                                                rel="noopener"
+                                                class="hero-news-explore"
+                                            >
+
+                                                <span>
+                                                    EXPLORE
+                                                </span>
+
+                                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                                            </a>
+
+                                        {% endif %}
+
+                                    </article>
+
+                                {% endfor %}
+
+                            </div>
+
+
+                            <!-- NEWS COUNTER -->
+
+                            {% if news|length > 1 %}
+
+                                <div class="hero-news-counter">
+
+                                    <span class="news-current">
+                                        01
+                                    </span>
+
+                                    <span class="news-counter-line"></span>
+
+                                    <span>
+
+                                        {% if news|length < 10 %}
+                                            0{{ news|length }}
+                                        {% else %}
+                                            {{ news|length }}
+                                        {% endif %}
+
+                                    </span>
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- BOTTOM PATTERN -->
+
+                <div class="hero-pattern">
+
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+
+                </div>
+
+            </article>
+
+        {% endfor %}
+
+    {% else %}
+
+        <!-- =================================================
+             NO BANNER
+        ================================================== -->
+
+        <article class="hero-slide active">
+
+            <div class="hero-overlay"></div>
+
+            <div class="hero-inner">
+
+                <div class="hero-content">
+
+                    <div class="hero-eyebrow">
+
+                        <span></span>
+
+                        <small>
+                            WELCOME
+                        </small>
+
+                    </div>
+
+
+                    <h1>
+                        Welcome to<br>
+                        Arab Invest Intranet
+                    </h1>
+
+
+                    <p>
+                        Create a banner from the CMS to publish content here.
+                    </p>
+
+
+                    <a
+                        class="hero-action hero-action-main"
+                        href="{% url 'dashboard' %}"
+                    >
+
+                        <span>
+                            Open CMS
+                        </span>
+
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}
