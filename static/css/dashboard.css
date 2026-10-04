@@ -612,11 +612,7 @@ tr:hover{
     display:grid;
     place-items:center
 }
-.login>section{
-    width:min(430px,90vw);
-    background:#f6f6f2;
-    padding:40px
-}
+
 .login-mark{
     width:42px;
     height:42px;
