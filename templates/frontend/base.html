@@ -578,15 +578,95 @@
 </nav>
 
 
+<!-- =====================================================
+     MOBILE NAVIGATION
+===================================================== -->
+
+<div class="mobile-navigation" id="mobileNavigation">
+
+    <div class="mobile-navigation-inner">
+
+        {% for navbar in navbars %}
+
+            <div class="mobile-nav-group">
+
+                {% if navbar.items.all %}
+
+                    <button
+                        type="button"
+                        class="mobile-nav-trigger"
+                        aria-expanded="false"
+                    >
+
+                        <span>
+                            {{ navbar.name }}
+                        </span>
+
+                        <i class="fa-solid fa-angle-down"></i>
+
+                    </button>
+
+
+                    <div class="mobile-nav-menu">
+
+                        {% for item in navbar.items.all %}
+
+                            {% if not item.parent and item.is_active %}
+
+                                {% include 'frontend/_node.html' with item=item %}
+
+                            {% endif %}
+
+                        {% endfor %}
+
+                    </div>
+
+
+                {% elif navbar.url %}
+
+                    <a
+                        href="{{ navbar.url }}"
+                        target="_blank"
+                        rel="noopener"
+                        class="mobile-nav-link"
+                    >
+
+                        <span>
+                            {{ navbar.name }}
+                        </span>
+
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                    </a>
+
+
+                {% else %}
+
+                    <span class="mobile-nav-static">
+                        {{ navbar.name }}
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+
         <!-- CMS -->
 
         <a
-            class="cms-link"
-            href="{% url 'dashboard' %}"
-        >
-            CMS
-        </a>
-
+    class="cms-link"
+    href="{% url 'dashboard' %}"
+    target="_blank"
+    rel="noopener noreferrer"
+>
+    CMS
+</a>
 
     </div>
 

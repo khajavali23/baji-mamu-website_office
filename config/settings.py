@@ -12,14 +12,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'dev-only-change-me')
 DEBUG = os.getenv('DEBUG', 'True').lower() in {'1', 'true', 'yes'}
+
 ALLOWED_HOSTS = [
-    '127.0.0.1',
-    'localhost',
-    'shadows-bible-crossword-contrast.trycloudflare.com',
+    "127.0.0.1",
+    "localhost",
+    "obj-ceo-php-roommate.trycloudflare.com",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://shadows-bible-crossword-contrast.trycloudflare.com',
+    'https://obj-ceo-php-roommate.trycloudflare.com',
 ]
 INSTALLED_APPS = [
     'django.contrib.admin',

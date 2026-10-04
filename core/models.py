@@ -87,9 +87,22 @@ class NavigationItem(Stamp):
         ) 
     
 class NavigationPage(Stamp):
-    navigation_item=models.OneToOneField(NavigationItem,on_delete=models.CASCADE,related_name='page')
-    heading=models.CharField(max_length=220); content=models.TextField(blank=True); image=models.ImageField(upload_to='pages/',blank=True,null=True)
-    def __str__(self): return self.heading
+    navigation_item = models.OneToOneField(
+        NavigationItem,
+        on_delete=models.CASCADE,
+        related_name='page'
+    )
+
+    heading = models.CharField(max_length=220)
+    content = models.TextField(blank=True)
+    image = models.ImageField(
+        upload_to='pages/',
+        blank=True,
+        null=True
+    )
+
+    def __str__(self):
+        return self.heading
 
 class PageDocument(Stamp):
     page=models.ForeignKey(NavigationPage,on_delete=models.CASCADE,related_name='documents'); name=models.CharField(max_length=180); document=models.FileField(upload_to='page-documents/'); order=models.PositiveIntegerField(default=0)

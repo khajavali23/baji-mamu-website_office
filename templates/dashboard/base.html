@@ -6,14 +6,26 @@
         <title>{% block title %}Arab Invest CMS{% endblock %}</title>
         <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+        <link
+    rel="icon"
+    type="image/png"
+    href="{% static 'images/favicon.png' %}"
+>
     </head>
     <body>
         <aside class="sidebar" id="side">
-            <div class="side-brand">
-                <b>AI</b>
-                <div><strong>ARAB INVEST</strong><small>INTRANET CMS</small></div>
-            </div>
-            <button class="collapse" id="collapse">‹</button>
+            <a
+    class="side-brand"
+    href="/"
+    aria-label="Arab Invest Intranet"
+>
+    <img
+        src="/static/images/arab-invest-logo.png"
+        alt="Arab Invest"
+        class="brand-logo"
+    >
+</a>
+            
             <nav>
                 <small>OVERVIEW</small
                 ><a href="{% url 'dashboard' %}"><i class="fa-solid fa-chart-line"></i>Dashboard</a
@@ -63,5 +75,6 @@
             <main class="workspace">{% block content %}{% endblock %}</main>
         </div>
         <script src="{% static 'js/dashboard.js' %}"></script>
+       
     </body>
 </html>

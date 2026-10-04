@@ -571,6 +571,346 @@
 
     {% endif %}
 
-</section>
+
+
+
+
+
+<!-- =========================================================
+     HOME PAGE CONTENT OVERLAY
+========================================================= -->
+
+<div
+    id="aiPageOverlay"
+    class="ai-page-overlay"
+    aria-hidden="true"
+>
+
+    <div class="ai-page-window">
+
+        <!-- CLOSE -->
+
+        <button
+            type="button"
+            id="aiPageClose"
+            class="ai-page-close"
+            aria-label="Close"
+        >
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+
+        {% for page in pages %}
+
+            <article
+                class="ai-page-item"
+                data-page-content="{{ page.pk }}"
+            >
+
+                <!-- =========================================
+                     LEFT IMAGE
+                ========================================== -->
+
+                <div class="ai-page-visual">
+
+                    {% if page.image %}
+
+                        <img
+                            src="{{ page.image.url }}"
+                            alt="{{ page.heading }}"
+                        >
+
+                    {% else %}
+
+                        <div class="ai-page-no-image">
+
+                            <span>
+                                ARAB INVEST
+                            </span>
+
+                            <small>
+                                CORPORATE CONTENT
+                            </small>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <div class="ai-page-visual-overlay"></div>
+
+
+
+
+                </div>
+
+
+                <!-- =========================================
+                     RIGHT CONTENT
+                ========================================== -->
+
+                <div class="ai-page-body">
+
+                    <div class="ai-page-scroll">
+
+                        <!-- EYEBROW -->
+
+                       
+
+
+                        <!-- TITLE -->
+
+                        <h1>
+                            {{ page.heading }}
+                        </h1>
+
+
+                        <!-- CONTENT -->
+
+                        {% if page.content %}
+
+                            <div class="ai-page-description">
+
+                                {{ page.content|linebreaks }}
+
+                            </div>
+
+                        {% endif %}
+
+
+                        <!-- =================================
+                             DOCUMENTS
+                        ================================== -->
+
+                        {% if page.documents.all %}
+
+                            <section class="ai-page-section">
+
+                                <div class="ai-page-section-heading">
+
+                                    <div>
+
+                                        <i class="fa-regular fa-file-lines"></i>
+
+                                        <span>
+                                            DOCUMENTS
+                                        </span>
+
+                                    </div>
+
+                                    <small>
+                                        {{ page.documents.all|length }}
+                                        {% if page.documents.all|length == 1 %}
+                                            Document
+                                        {% else %}
+                                            Documents
+                                        {% endif %}
+                                    </small>
+
+                                </div>
+
+
+                                <div class="ai-page-resource-list">
+
+                                    {% for x in page.documents.all %}
+
+                                        <a
+                                            href="{{ x.document.url }}"
+                                            target="_blank"
+                                            rel="noopener"
+                                            class="ai-page-resource"
+                                        >
+
+                                            <div class="ai-page-resource-icon">
+
+                                                <i class="fa-regular fa-file-pdf"></i>
+
+                                            </div>
+
+
+                                            <div class="ai-page-resource-info">
+
+                                                <strong>
+                                                    {{ x.name }}
+                                                </strong>
+
+                                                <small>
+                                                    PDF Document
+                                                </small>
+
+                                            </div>
+
+
+                                            <div class="ai-page-resource-open">
+
+                                                Open
+
+                                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                                            </div>
+
+                                        </a>
+
+                                    {% endfor %}
+
+                                </div>
+
+                            </section>
+
+                        {% endif %}
+
+
+                        <!-- =================================
+                             LINKS
+                        ================================== -->
+
+                        {% if page.links.all %}
+
+                            <section class="ai-page-section">
+
+                                <div class="ai-page-section-heading">
+
+                                    <div>
+
+                                        <i class="fa-solid fa-link"></i>
+
+                                        <span>
+                                            LINKS
+                                        </span>
+
+                                    </div>
+
+                                    <small>
+                                        {{ page.links.all|length }}
+                                        {% if page.links.all|length == 1 %}
+                                            Link
+                                        {% else %}
+                                            Links
+                                        {% endif %}
+                                    </small>
+
+                                </div>
+
+
+                                <div class="ai-page-resource-list">
+
+                                    {% for x in page.links.all %}
+
+                                        <a
+                                            href="{{ x.url }}"
+                                            target="_blank"
+                                            rel="noopener"
+                                            class="ai-page-resource"
+                                        >
+
+                                            <div class="ai-page-resource-icon ai-link-icon">
+
+                                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                                            </div>
+
+
+                                            <div class="ai-page-resource-info">
+
+                                                <strong>
+                                                    {{ x.name }}
+                                                </strong>
+
+                                                <small>
+                                                    External Link
+                                                </small>
+
+                                            </div>
+
+
+                                            <div class="ai-page-resource-open">
+
+                                                Open
+
+                                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                                            </div>
+
+                                        </a>
+
+                                    {% endfor %}
+
+                                </div>
+
+                            </section>
+
+                        {% endif %}
+
+
+                        <!-- =================================
+                             GALLERY
+                        ================================== -->
+
+                        {% if page.images.all %}
+
+                            <section class="ai-page-section">
+
+                                <div class="ai-page-section-heading">
+
+                                    <div>
+
+                                        <i class="fa-regular fa-images"></i>
+
+                                        <span>
+                                            GALLERY
+                                        </span>
+
+                                    </div>
+
+                                    <small>
+                                        {{ page.images.all|length }}
+                                        Images
+                                    </small>
+
+                                </div>
+
+
+                                <div class="ai-page-gallery">
+
+                                    {% for x in page.images.all %}
+
+                                        <a
+                                            href="{{ x.image.url }}"
+                                            target="_blank"
+                                            rel="noopener"
+                                        >
+
+                                            <img
+                                                src="{{ x.image.url }}"
+                                                alt="{{ x.name }}"
+                                            >
+
+                                            <span>
+                                                {{ x.name }}
+                                            </span>
+
+                                        </a>
+
+                                    {% endfor %}
+
+                                </div>
+
+                            </section>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+
 
 {% endblock %}

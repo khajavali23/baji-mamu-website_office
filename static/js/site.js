@@ -4,18 +4,54 @@ document.addEventListener("DOMContentLoaded", function () {
        MOBILE MENU
     ===================================================== */
 
-    const mobileNav = document.getElementById("mobileNav");
-    const mainNav = document.querySelector(".main-nav");
+const mobileNav = document.getElementById("mobileNav");
+const mobileNavigation = document.getElementById("mobileNavigation");
 
-    if (mobileNav && mainNav) {
+if (mobileNav && mobileNavigation) {
 
-        mobileNav.addEventListener("click", function () {
+    mobileNav.addEventListener("click", function (event) {
 
-            mainNav.classList.toggle("open");
+        event.stopPropagation();
+
+        mobileNavigation.classList.toggle("open");
+
+        document.body.classList.toggle(
+            "mobile-menu-open",
+            mobileNavigation.classList.contains("open")
+        );
+
+    });
+
+
+    /* Mobile navbar dropdowns */
+
+    mobileNavigation
+        .querySelectorAll(".mobile-nav-trigger")
+        .forEach(function (button) {
+
+            button.addEventListener("click", function (event) {
+
+                event.stopPropagation();
+
+                const group =
+                    button.closest(".mobile-nav-group");
+
+                if (!group) {
+                    return;
+                }
+
+                group.classList.toggle("open");
+
+                button.setAttribute(
+                    "aria-expanded",
+                    group.classList.contains("open")
+                );
+
+            });
 
         });
 
-    }
+}
 
     
 
@@ -374,3 +410,208 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 });
+
+
+/* =========================================================
+   ARAB INVEST — HOME PAGE CONTENT POPUP
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const overlay = document.getElementById("aiPageOverlay");
+    const closeButton = document.getElementById("aiPageClose");
+
+    if (!overlay) {
+        return;
+    }
+
+
+    const pageItems = overlay.querySelectorAll(
+        ".ai-page-item"
+    );
+
+
+    /* =====================================================
+       OPEN PAGE
+    ===================================================== */
+
+    document.addEventListener("click", function (event) {
+
+        const trigger = event.target.closest(
+            ".home-page-trigger"
+        );
+
+        if (!trigger) {
+            return;
+        }
+
+
+        event.preventDefault();
+
+
+        const pageId = trigger.dataset.pageId;
+
+
+        /* Hide all pages */
+
+        pageItems.forEach(function (page) {
+
+            page.classList.remove(
+                "ai-page-active"
+            );
+
+        });
+
+
+        /* Find selected page */
+
+        const selectedPage = overlay.querySelector(
+            '.ai-page-item[data-page-content="' +
+            pageId +
+            '"]'
+        );
+
+
+        if (!selectedPage) {
+            return;
+        }
+
+
+        /* Show selected page */
+
+        selectedPage.classList.add(
+            "ai-page-active"
+        );
+
+
+        /* Reset scroll */
+
+        const scrollArea =
+            selectedPage.querySelector(
+                ".ai-page-scroll"
+            );
+
+        if (scrollArea) {
+
+            scrollArea.scrollTop = 0;
+
+        }
+
+
+        /* Open overlay */
+
+        overlay.classList.add(
+            "ai-page-open"
+        );
+
+        overlay.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+
+        /* Prevent background scrolling */
+
+        document.body.style.overflow = "hidden";
+
+    });
+
+
+    /* =====================================================
+       CLOSE PAGE
+    ===================================================== */
+
+    function closePage() {
+
+        overlay.classList.remove(
+            "ai-page-open"
+        );
+
+        overlay.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+
+        document.body.style.overflow = "";
+
+
+        /*
+         * Remove active page after animation
+         */
+
+        setTimeout(function () {
+
+            pageItems.forEach(function (page) {
+
+                page.classList.remove(
+                    "ai-page-active"
+                );
+
+            });
+
+        }, 500);
+
+    }
+
+
+    /* CLOSE BUTTON */
+
+    if (closeButton) {
+
+        closeButton.addEventListener(
+            "click",
+            closePage
+        );
+
+    }
+
+
+    /* =====================================================
+       CLICK OUTSIDE
+    ===================================================== */
+
+    overlay.addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                event.target === overlay
+            ) {
+
+                closePage();
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       ESC KEY
+    ===================================================== */
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key === "Escape" &&
+                overlay.classList.contains(
+                    "ai-page-open"
+                )
+            ) {
+
+                closePage();
+
+            }
+
+        }
+    );
+
+});
+/* =====================================================
+   MOBILE NAVIGATION — SUBMENU TOGGLE
+   MOBILE ONLY
+===================================================== */
+

@@ -1,1 +1,155 @@
-{% extends 'dashboard/base.html' %}{% block content %}<div class="head"><div><small>CONTROL CENTER</small><h1>Good morning, {{ request.user.username|title }}</h1><p>Control the entire Arab Invest intranet from one database-driven workspace.</p></div><a class="primary" href="{% url 'navigation_add' %}">+ Create content</a></div><div class="stats"><div><i class="fa-solid fa-sitemap"></i><strong>{{ counts.navigation }}</strong><span>Navigation Items</span></div><div><i class="fa-regular fa-file-lines"></i><strong>{{ counts.pages }}</strong><span>Pages</span></div><div><i class="fa-regular fa-file-pdf"></i><strong>{{ counts.documents }}</strong><span>Documents</span></div><div><i class="fa-solid fa-link"></i><strong>{{ counts.links }}</strong><span>Links</span></div><div><i class="fa-regular fa-images"></i><strong>{{ counts.images }}</strong><span>Images</span></div><div><i class="fa-regular fa-rectangle-list"></i><strong>{{ counts.banners }}</strong><span>Banners</span></div><div><i class="fa-regular fa-newspaper"></i><strong>{{ counts.news }}</strong><span>News</span></div></div><div class="dash-grid"><section class="panel"><small>QUICK ACTIONS</small><h2>Build faster</h2><div class="quick"><a href="{% url 'navbar_add' %}">New Navbar <b>→</b></a><a href="{% url 'navigation_add' %}">New Navigation Item <b>→</b></a><a href="{% url 'page_add' %}">New Page <b>→</b></a><a href="{% url 'banner_add' %}">New Banner <b>→</b></a><a href="{% url 'news_add' %}">New News <b>→</b></a><a href="{% url 'page_documents_add' %}">Upload Document <b>→</b></a></div></section><section class="panel"><small>CONTENT HEALTH</small><h2>Live checks</h2>{% for k,v in health.items %}<div class="health"><span>{{ k|cut:'_'|title }}</span><b>{{ v }}</b></div>{% endfor %}</section></div><section class="panel"><small>AUDIT TRAIL</small><h2>Recent activity</h2>{% for a in activities %}<div class="activity"><span></span><div><b>{{ a.object_type }} {{ a.action }}</b><small>{{ a.object_name }}</small></div><time>{{ a.created_at|date:'d M · H:i' }}</time></div>{% empty %}<div class="empty">No recent activity yet.</div>{% endfor %}</section>{% endblock %}
+{% extends 'dashboard/base.html' %}{% block content %}
+<div class="head">
+    <div>
+        <small>CONTROL CENTER</small>
+        <h1>Good morning, {{ request.user.username|title }}</h1>
+        <p>Control the entire Arab Invest intranet from one database-driven workspace.</p>
+    </div>
+    <a class="primary" href="{% url 'navigation_add' %}">+ Create content</a>
+</div>
+<div class="stats">
+    <div><i class="fa-solid fa-sitemap"></i><strong>{{ counts.navigation }}</strong><span>Navigation Items</span></div>
+    <div><i class="fa-regular fa-file-lines"></i><strong>{{ counts.pages }}</strong><span>Pages</span></div>
+    <div><i class="fa-regular fa-file-pdf"></i><strong>{{ counts.documents }}</strong><span>Documents</span></div>
+    <div><i class="fa-solid fa-link"></i><strong>{{ counts.links }}</strong><span>Links</span></div>
+    <div><i class="fa-regular fa-images"></i><strong>{{ counts.images }}</strong><span>Images</span></div>
+    <div><i class="fa-regular fa-rectangle-list"></i><strong>{{ counts.banners }}</strong><span>Banners</span></div>
+    <div><i class="fa-regular fa-newspaper"></i><strong>{{ counts.news }}</strong><span>News</span></div>
+</div>
+<div class="dash-grid">
+
+    <!-- =====================================================
+         QUICK ACTIONS
+    ===================================================== -->
+
+    <section class="panel">
+
+        <small>QUICK ACTIONS</small>
+
+        <h2>Build faster</h2>
+
+        <div class="quick">
+
+            <!-- CREATE -->
+
+            <a href="{% url 'navbar_add' %}">
+                New Navbar
+                <b>→</b>
+            </a>
+
+            <a href="{% url 'navigation_add' %}">
+                New Navigation Item
+                <b>→</b>
+            </a>
+
+            <a href="{% url 'page_add' %}">
+                New Page
+                <b>→</b>
+            </a>
+
+            <a href="{% url 'banner_add' %}">
+                New Banner
+                <b>→</b>
+            </a>
+
+            <a href="{% url 'news_add' %}">
+                New News
+                <b>→</b>
+            </a>
+
+            <a href="{% url 'page_documents_add' %}">
+                Upload Document
+                <b>→</b>
+            </a>
+
+            <a href="{% url 'navigation_links_add' %}">
+    New Navigation Link
+    <b>→</b>
+</a>
+
+
+            <!-- MANAGE -->
+
+            <a href="{% url 'navbars' %}">
+                Manage Navbars
+                <b>→</b>
+            </a>
+
+            <a href="{% url 'navigation_list' %}">
+                Manage Navigation
+                <b>→</b>
+            </a>
+
+            <a href="{% url 'page_list' %}">
+                Manage Pages
+                <b>→</b>
+            </a>
+
+            <a href="{% url 'banner_list' %}">
+                Manage Banners
+                <b>→</b>
+            </a>
+
+            <a href="{% url 'news_list' %}">
+                Manage News
+                <b>→</b>
+            </a>
+
+            <a href="{% url 'page_documents_list' %}">
+                Manage Documents
+                <b>→</b>
+            </a>
+
+            <a href="{% url 'navigation_links_list' %}">
+                Manage Navigation Links
+                <b>→</b>
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CONTENT HEALTH
+    ===================================================== -->
+
+    <section class="panel">
+
+        <small>CONTENT HEALTH</small>
+
+        <h2>Live checks</h2>
+
+        {% for k,v in health.items %}
+
+            <div class="health">
+
+                <span>
+                    {{ k|cut:'_'|title }}
+                </span>
+
+                <b>
+                    {{ v }}
+                </b>
+
+            </div>
+
+        {% endfor %}
+
+    </section>
+
+</div>
+<section class="panel">
+    <small>AUDIT TRAIL</small>
+    <h2>Recent activity</h2>
+    {% for a in activities %}
+    <div class="activity">
+        <span></span>
+        <div><b>{{ a.object_type }} {{ a.action }}</b><small>{{ a.object_name }}</small></div>
+        <time>{{ a.created_at|date:'d M · H:i' }}</time>
+    </div>
+    {% empty %}
+    <div class="empty">No recent activity yet.</div>
+    {% endfor %}
+</section>
+{% endblock %}
