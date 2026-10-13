@@ -16,12 +16,10 @@ DEBUG = os.getenv('DEBUG', 'True').lower() in {'1', 'true', 'yes'}
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
-    "obj-ceo-php-roommate.trycloudflare.com",
+    
 ]
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://obj-ceo-php-roommate.trycloudflare.com',
-]
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',

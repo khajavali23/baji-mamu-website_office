@@ -16,7 +16,63 @@
 /* =====================================================
    NOTO KUFI ARABIC
 ===================================================== */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
 
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+.site-header {
+    width: 100%;
+}
+
+main {
+    width: 100%;
+    min-width: 0;
+}
+
+.home-hero {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.hero-slide {
+    width: 100%;
+    max-width: 100%;
+}
+/* NAVBAR — allow items to wrap */
+.main-nav {
+    width: 100%;
+    min-width: 0;
+}
+
+.main-nav > ul {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 16px;
+    width: 100%;
+    min-width: 0;
+}
+
+.main-nav > ul > li {
+    flex: 0 0 auto;
+}
+
+/* Keep the header content from clipping */
+.site-header,
+.site-header-inner {
+    overflow: visible;
+}
 button,
 input,
 textarea,
@@ -244,6 +300,7 @@ button {
     font-size: 10px;
 
     font-weight: 700;
+    display: none;
 }
 
 
@@ -2673,6 +2730,7 @@ button {
     -webkit-backdrop-filter: blur(14px);
     transition: color .3s ease, background .3s ease, border-color .3s ease, transform .3s ease, box-shadow .3s ease;
     overflow: hidden;
+    display: none;
 }
 
 
